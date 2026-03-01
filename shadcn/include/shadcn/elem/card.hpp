@@ -28,6 +28,8 @@ namespace shadcn
             int rounding = 10;
         };
 
+        CardData cardData;
+
         Card( const std::string& name, const ImVec2& size, const std::optional< CardData >& data = std::nullopt );
         ~Card( );
 

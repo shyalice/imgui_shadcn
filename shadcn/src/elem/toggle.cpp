@@ -86,7 +86,7 @@ Toggle::Toggle( const std::string& id, bool* v, const ToggleData& data )
         break;
     }
 
-    window->DrawList->PushClipRectFullScreen( );
+    //window->DrawList->PushClipRectFullScreen( );
 
     st.heldOffset = shadcn::g->styles->global.useAdvancedAnimations ? ImLerp( st.heldOffset, ( held && !inactive ) ? ImVec2( 2, 2 ) : ImVec2( 0, 0 ), g.IO.DeltaTime * 20.f ) : ImVec2( 0, 0 );
 
@@ -109,7 +109,7 @@ Toggle::Toggle( const std::string& id, bool* v, const ToggleData& data )
 
     window->DrawList->AddCircleFilled( total_bb.Min + ImVec2( padding + st.offset, padding ), radius, Color( st.pill ).modulate( ), 66 );
 
-    window->DrawList->PopClipRect( );
+    //window->DrawList->PopClipRect( );
 }
 
 Toggle::~Toggle( ) = default;

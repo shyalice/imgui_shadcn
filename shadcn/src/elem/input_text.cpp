@@ -1229,8 +1229,7 @@ bool InputText::inputEx( const char* label, const char* hint, char* buf, int buf
     // Render frame
     if ( !is_multiline )
     {
-
-        window->DrawList->PushClipRectFullScreen( );
+        //window->DrawList->PushClipRectFullScreen( );
 
         ImColor bg, outline, text, ring = { };
 
@@ -1257,7 +1256,7 @@ bool InputText::inputEx( const char* label, const char* hint, char* buf, int buf
 
         // window->DrawList->AddText( GetFont( ), GetFontSize( ) * st.heldSizeMult, total_bb.GetCenter( ) - ( text_size * st.heldSizeMult ) / 2, Color( text ).modulate( ), name.c_str( ) );
 
-        window->DrawList->PopClipRect( );
+        //window->DrawList->PopClipRect( );
 
         // RenderNavCursor( frame_bb, id );
         // RenderFrame( frame_bb.Min, frame_bb.Max, GetColorU32( ImGuiCol_FrameBg ), true, style.FrameRounding );

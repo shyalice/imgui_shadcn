@@ -59,7 +59,7 @@ Button::Button( const std::string& name, const ButtonData& data )
         st.focused = true;
     }
 
-    window->DrawList->PushClipRectFullScreen( );
+    //window->DrawList->PushClipRectFullScreen( );
 
     ImColor bg_idle, bg_pressed, text = { };
 
@@ -106,7 +106,7 @@ Button::Button( const std::string& name, const ButtonData& data )
 
     window->DrawList->AddText( font.data.first, static_cast< float >( font.data.second ) * st.heldSizeMult, total_bb.GetCenter( ) - ( text_size * st.heldSizeMult ) / 2, Color( text ).modulate( ), name.c_str( ) );
 
-    window->DrawList->PopClipRect( );
+    //window->DrawList->PopClipRect( );
 }
 
 Button::~Button( ) = default;

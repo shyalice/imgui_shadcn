@@ -86,7 +86,7 @@ Checkbox::Checkbox( const std::string& id, bool* v, const CheckboxData& data )
         break;
     }
 
-    window->DrawList->PushClipRectFullScreen( );
+    //window->DrawList->PushClipRectFullScreen( );
 
     st.heldOffset = shadcn::g->styles->global.useAdvancedAnimations ? ImLerp( st.heldOffset, ( held && !inactive ) ? ImVec2( 2, 2 ) : ImVec2( 0, 0 ), g.IO.DeltaTime * 20.f ) : ImVec2( 0, 0 );
 
@@ -110,7 +110,7 @@ Checkbox::Checkbox( const std::string& id, bool* v, const CheckboxData& data )
     const ImVec2 points[ 3 ] = { ImVec2( check_mark_bb.Min.x, check_mark_bb.GetCenter( ).y ), ImVec2( check_mark_bb.Min.x + static_cast< int >( check_mark_bb.GetWidth( ) / 3 ), check_mark_bb.Max.y - 1 ), ImVec2( check_mark_bb.GetTR( ) + ImVec2( 0, 1 ) ) };
     window->DrawList->AddPolyline( points, 3, Color( st.mark ).modulate( ), 0, 1.0f );
 
-    window->DrawList->PopClipRect( );
+    //window->DrawList->PopClipRect( );
 }
 
 Checkbox::~Checkbox( ) = default;
