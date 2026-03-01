@@ -13,14 +13,20 @@
 
 namespace shadcn
 {
+    enum class CheckboxStyle
+    {
+        Primary,
+        Destructive
+    };
+
     struct Checkbox
     {
         struct CheckboxState
         {
             bool focused = false;
-
             ImVec2 heldOffset;
             ImVec4 focus;
+
             ImVec4 background;
             ImVec4 border;
             ImVec4 mark;
@@ -29,7 +35,8 @@ namespace shadcn
         struct CheckboxData
         {
             ImVec2 size = { 16, 16 };
-            bool isDestructive = false;
+            CheckboxStyle style = CheckboxStyle::Primary;
+            bool* forwardFocus = nullptr;
             std::function< void( ) > onClick;
         };
 

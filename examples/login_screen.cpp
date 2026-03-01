@@ -21,11 +21,13 @@ using namespace ImGui;
 void simpleCheckboxWidget( bool* v, const std::string& name )
 {
     auto const cur_y = GetCursorPosY( );
-    shadcn::Checkbox( name, v, { .size = { 16, 16 } } );
+    static bool forward_focus = false;
+    shadcn::Checkbox( name, v, { .size = { 16, 16 }, .style = shadcn::CheckboxStyle::Destructive, .forwardFocus = &forward_focus } );
     SameLine( 0, 10 );
-    SetCursorPosY( cur_y);
+    SetCursorPosY( cur_y );
     shadcn::Text( name, { .fontVariant = "geist_500_14", .onClick = [ & ] {
                              *v = ( !*v );
+                             forward_focus = true;
                          } } );
 }
 
@@ -62,6 +64,9 @@ void LoginScreen::render( )
         static char buf[ 50 ] = { };
         shadcn::InputText( "##key", "Your key", buf, IM_ARRAYSIZE( buf ), { .size = { width, 8 * 2 + 14 }, .pad = { 8, 8 }, .fontVariant = "geist_500_14", .rounding = 10, .isDestructive = false } );
 
+        if ( buf[ 0 ] != 'E' )
+            shadcn::elem::pushInactiveFlag( );
+
         static bool remember;
         simpleCheckboxWidget( &remember, "Remember me?" );
 
@@ -71,9 +76,6 @@ void LoginScreen::render( )
                                    } } );
 
         SameLine( 0, 10 );
-
-        if ( buf[ 0 ] != 'E' )
-            shadcn::elem::pushInactiveFlag( );
 
         shadcn::Button( "OK", { .size = { btn_width, 8 * 2 + 14 }, .fontVariant = "geist_500_14", .rounding = 10, .style = shadcn::ButtonStyle::Primary, .onClick = [] {
                                } } );

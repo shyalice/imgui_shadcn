@@ -1,8 +1,8 @@
 //
-// Created by Kai Tears on 27/02/2026.
+// Created by Kai Tears on 01/03/2026.
 //
 
-#include "elem/checkbox.hpp"
+#include "elem/toggle.hpp"
 
 #include "imgui.h"
 #include "imgui_internal.h"
@@ -16,11 +16,11 @@
 
 using namespace ImGui;
 
-using shadcn::Checkbox;
+using shadcn::Toggle;
 
-std::unordered_map< std::string, Checkbox::CheckboxState > Checkbox::state;
+std::unordered_map< std::string, Toggle::ToggleState > Toggle::state;
 
-Checkbox::Checkbox( const std::string& id, bool* v, const CheckboxData& data )
+Toggle::Toggle( const std::string& id, bool* v, const ToggleData& data )
 {
     ImGuiWindow* window = GetCurrentWindow( );
     if ( window->SkipItems )
@@ -72,12 +72,12 @@ Checkbox::Checkbox( const std::string& id, bool* v, const CheckboxData& data )
 
     switch ( data.style )
     {
-    case CheckboxStyle::Primary:
+    case ToggleStyle::Primary:
         bg = !( *v ) ? colorPalette[ "background" ].value : ( inactive ? colorPalette[ "primary" ].modulate( 0.7f * style.Alpha ).Value : colorPalette[ "primary" ].value );
         border = !( *v ) ? ( st.focused ? colorPalette[ "ring" ].value : colorPalette[ "border" ].value ) : colorPalette[ "border" ].modulate( 0 ).Value;
         focus = st.focused ? colorPalette[ "ring" ].modulate( 0.5f * style.Alpha ).Value : colorPalette[ "ring" ].modulate( 0 ).Value;
         break;
-    case CheckboxStyle::Destructive:
+    case ToggleStyle::Destructive:
         bg = !( *v ) ? colorPalette[ "destructive" ].modulate( 0.05f * style.Alpha ).Value : ( inactive ? colorPalette[ "destructive" ].modulate( 0.7f * style.Alpha ).Value : colorPalette[ "destructive" ].value );
         border = !( *v ) ? ( st.focused ? colorPalette[ "ring_destructive" ].value : colorPalette[ "destructive" ].modulate( 0.1f * style.Alpha ).Value ) : colorPalette[ "destructive" ].modulate( 0 ).Value;
         focus = st.focused ? colorPalette[ "ring_destructive" ].modulate( 0.5f * style.Alpha ).Value : colorPalette[ "ring_destructive" ].modulate( 0 ).Value;
@@ -92,25 +92,24 @@ Checkbox::Checkbox( const std::string& id, bool* v, const CheckboxData& data )
 
     st.background = ImLerp( st.background, bg, g.IO.DeltaTime * 20.f );
     st.border = ImLerp( st.border, border, g.IO.DeltaTime * 20.f );
-    st.mark = ImLerp( st.mark, !( *v ) ? colorPalette[ "primary_foreground" ].modulate( 0 ).Value : colorPalette[ "primary_foreground" ].value, g.IO.DeltaTime * 20.f );
+    st.pill = ImLerp( st.pill, !( *v ) ? st.border : colorPalette[ "primary_foreground" ].value, g.IO.DeltaTime * 20.f );
     st.focus = ImLerp( st.focus, focus, g.IO.DeltaTime * 20.f );
 
-    window->DrawList->AddRect( total_bb.Min - ImVec2( 1, 1 ) + st.heldOffset, total_bb.Max + ImVec2( 1, 1 ) - st.heldOffset, Color( st.focus ).modulate( ), 4, 0, 4 );
+    window->DrawList->AddRect( total_bb.Min - ImVec2( 1, 1 ) + st.heldOffset, total_bb.Max + ImVec2( 1, 1 ) - st.heldOffset, Color( st.focus ).modulate( ), 999, 0, 4 );
 
-    window->DrawList->AddRectFilled( total_bb.Min + st.heldOffset, total_bb.Max - st.heldOffset, Color( st.background ).modulate( ), 4 );
-    window->DrawList->AddRect( total_bb.Min + st.heldOffset, total_bb.Max - st.heldOffset, Color( st.border ).modulate( ), 4 );
+    window->DrawList->AddRectFilled( total_bb.Min + st.heldOffset, total_bb.Max - st.heldOffset, Color( st.background ).modulate( ), 999 );
+    window->DrawList->AddRect( total_bb.Min + st.heldOffset, total_bb.Max - st.heldOffset, Color( st.border ).modulate( ), 999 );
 
-    // const float pad = ImMax( 1.0f, IM_TRUNC( ( data.size.y - st.heldOffset.y ) / 5.0f ) );
-    // RenderCheckMark( window->DrawList, total_bb.Min + ImVec2( pad, pad ) + st.heldOffset, Color( st.mark ).modulate( ), ( data.size.y - st.heldOffset.y * 2 ) - pad * 2.0f );
+    st.radius = ImLerp( st.radius, !(*v) ? 1.f : 0.f, g.IO.DeltaTime * 20.f );
 
-    const float check_sz = total_bb.GetHeight( ) - ( st.heldOffset.y * 2 );
-    const float pad = ImMax( 1.0f, ( float ) ( int ) ( check_sz / 6.0f ) );
-    // window->DrawList->AddRectFilled(check_bb.Min+ImVec2(pad,pad), check_bb.Max-ImVec2(pad,pad), GetColorU32(ImGuiCol_CheckMark), style.FrameRounding);
-    const ImRect check_mark_bb( total_bb.Min + ImVec2( pad, pad ) + st.heldOffset + ImVec2( 1, 1 ), total_bb.Max - ImVec2( pad, pad ) - st.heldOffset - ImVec2( 1, 1 ) );
-    const ImVec2 points[ 3 ] = { ImVec2( check_mark_bb.Min.x, check_mark_bb.GetCenter( ).y ), ImVec2( check_mark_bb.Min.x + static_cast< int >( check_mark_bb.GetWidth( ) / 3 ), check_mark_bb.Max.y - 1 ), ImVec2( check_mark_bb.GetTR( ) + ImVec2( 0, 1 ) ) };
-    window->DrawList->AddPolyline( points, 3, Color( st.mark ).modulate( ), 0, 1.0f );
+    auto const radius = total_bb.GetHeight( ) / 2 - 2 - st.radius;
+    auto const padding = 2 + radius + st.radius;
+
+    st.offset = ImLerp( st.offset, *v ? total_bb.GetWidth( ) - padding * 2 : 0, g.IO.DeltaTime * 20.f );
+
+    window->DrawList->AddCircleFilled( total_bb.Min + ImVec2( padding + st.offset, padding ), radius, Color( st.pill ).modulate( ), 66 );
 
     window->DrawList->PopClipRect( );
 }
 
-Checkbox::~Checkbox( ) = default;
+Toggle::~Toggle( ) = default;

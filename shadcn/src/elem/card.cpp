@@ -23,11 +23,15 @@ Card::Card( const std::string& name, const ImVec2& size, const std::optional< Ca
 {
     auto const card_data = data.value_or( CardData { } );
 
-    BeginChild( name.c_str( ), size, 0, ImGuiWindowFlags_NoBackground );
+    PushStyleVar( ImGuiStyleVar_WindowPadding, card_data.padding );
+
+    BeginChild( name.c_str( ), size, 0, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_AlwaysUseWindowPadding );
     auto* window = GetCurrentWindow( );
     auto const style = GetStyle( );
 
     window->DrawList->PushClipRectFullScreen( );
+
+    window->DrawList->AddRectFilled( window->Pos, window->Pos + window->Size, colorPalette[ "background" ].modulate( ), card_data.rounding );
 
     if ( card_data.useBackground )
         window->DrawList->AddRectFilled( window->Pos, window->Pos + window->Size, colorPalette[ "muted" ].modulate( 0.3f * style.Alpha ), card_data.rounding );
@@ -35,6 +39,8 @@ Card::Card( const std::string& name, const ImVec2& size, const std::optional< Ca
     window->DrawList->AddRect( window->Pos, window->Pos + window->Size, colorPalette[ "border" ].modulate( ), card_data.rounding );
 
     window->DrawList->PopClipRect( );
+
+    PopStyleVar( );
 }
 
 void Card::end( )

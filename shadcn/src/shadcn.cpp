@@ -14,16 +14,19 @@ Entry::Entry( )
 {
     g = std::make_unique< GlobalContext >( );
     initialized = true;
+
+    auto& style = ImGui::GetStyle( );
+    style.CurveTessellationTol = 0.1f;
+    style.ItemSpacing = { 10, 10 };
+
+    auto& shadcn_style = g->styles->global;
+    shadcn_style.useAdvancedAnimations = false;
 }
 
 Entry::~Entry( ) = default;
 
 GlobalContext::GlobalContext( )
 {
-    auto& style = ImGui::GetStyle( );
-    style.CurveTessellationTol = 0.1f;
-    style.ItemSpacing = { 10, 10 };
-
     fonts = std::make_unique< CFonts >( );
     styles = std::make_unique< CStyles >( );
 }

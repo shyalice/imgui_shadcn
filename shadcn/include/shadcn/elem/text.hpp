@@ -17,7 +17,7 @@ namespace shadcn
     {
         struct TextData
         {
-            std::string fontVariant = "geist_500_18";
+            std::string fontVariant = "geist_500_14";
             std::string color = "text";
             std::function< void( ) > onClick = nullptr;
         };

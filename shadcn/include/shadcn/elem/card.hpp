@@ -2,8 +2,8 @@
 // Created by Kai Tears on 01/03/2026.
 //
 
-#ifndef SHADCN_IMGUI_TOGGLE_HPP
-#define SHADCN_IMGUI_TOGGLE_HPP
+#ifndef SHADCN_IMGUI_CARD_HPP
+#define SHADCN_IMGUI_CARD_HPP
 
 #include "imgui.h"
 
@@ -15,6 +15,7 @@ namespace shadcn
 {
     struct CardData
     {
+        ImVec2 padding = { 10, 10 };
         int rounding = 10;
         bool useBackground = true;
     };

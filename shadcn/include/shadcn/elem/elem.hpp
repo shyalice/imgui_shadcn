@@ -17,7 +17,7 @@ namespace shadcn::elem
 
     extern void unfocusWhenInactive( const ImVec2& mouse_pos, const ImRect& rect, DataSkeleton* data );
 
-    extern void pushInactiveFlag( );
+    extern void pushInactiveFlag( bool flag = true );
     extern bool isInactive( );
     extern void popInactiveFlag( );
 } // namespace shadcn::elem

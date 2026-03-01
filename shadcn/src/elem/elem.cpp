@@ -18,9 +18,9 @@ void shadcn::elem::unfocusWhenInactive( const ImVec2& mouse_pos, const ImRect& r
 
 bool inactive;
 
-void shadcn::elem::pushInactiveFlag( )
+void shadcn::elem::pushInactiveFlag( bool flag )
 {
-    inactive = true;
+    inactive = flag;
 }
 
 bool shadcn::elem::isInactive( )

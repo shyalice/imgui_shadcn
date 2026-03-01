@@ -47,7 +47,9 @@ Button::Button( const std::string& name, const ButtonData& data )
 
     elem::unfocusWhenInactive( g.IO.MousePos, total_bb, ( elem::DataSkeleton* ) &st );
 
-    if ( pressed && !elem::isInactive( ) )
+    auto const inactive = elem::isInactive( );
+
+    if ( pressed && !inactive )
     {
         if ( data.onClick )
             data.onClick( );
@@ -64,7 +66,7 @@ Button::Button( const std::string& name, const ButtonData& data )
     switch ( data.style )
     {
     case ButtonStyle::Primary:
-        if ( elem::isInactive( ) )
+        if ( inactive )
             bg_idle = colorPalette[ "primary" ].modulate( 0.7f );
         else
             bg_idle = colorPalette[ "primary" ].value;
@@ -73,22 +75,28 @@ Button::Button( const std::string& name, const ButtonData& data )
         break;
 
     case ButtonStyle::Secondary:
-        bg_idle = colorPalette[ "secondary" ].value;
+        if ( inactive )
+            bg_idle = colorPalette[ "secondary" ].modulate( 0.7f );
+        else
+            bg_idle = colorPalette[ "secondary" ].value;
         bg_pressed = colorPalette[ "secondary" ].modulate( 0.8f );
         text = colorPalette[ "text_on_secondary" ].value;
         break;
 
     case ButtonStyle::Destructive:
-        bg_idle = colorPalette[ "destructive" ].modulate( 0.10f );
+        if ( inactive )
+            bg_idle = colorPalette[ "destructive" ].modulate( 0.10f * 0.7f );
+        else
+            bg_idle = colorPalette[ "destructive" ].modulate( 0.10f );
         bg_pressed = colorPalette[ "destructive" ].modulate( 0.20f );
         text = colorPalette[ "text_destructive" ].value;
         break;
     }
 
-    st.heldSizeMult = shadcn::g->styles->global.useAdvancedAnimations ? ImLerp( st.heldSizeMult, ( held && !elem::isInactive( ) ) ? 0.9f : 1.f, g.IO.DeltaTime * 20.f ) : 1.f;
-    st.heldOffset = shadcn::g->styles->global.useAdvancedAnimations ? ImLerp( st.heldOffset, ( held && !elem::isInactive( ) ) ? ImVec2( 2, 2 ) : ImVec2( 0, 0 ), g.IO.DeltaTime * 20.f ) : ImVec2( 0, 0 );
+    st.heldSizeMult = shadcn::g->styles->global.useAdvancedAnimations ? ImLerp( st.heldSizeMult, ( held && !inactive ) ? 0.9f : 1.f, g.IO.DeltaTime * 20.f ) : 1.f;
+    st.heldOffset = shadcn::g->styles->global.useAdvancedAnimations ? ImLerp( st.heldOffset, ( held && !inactive ) ? ImVec2( 2, 2 ) : ImVec2( 0, 0 ), g.IO.DeltaTime * 20.f ) : ImVec2( 0, 0 );
 
-    st.background = ImLerp( st.background, !pressed ? bg_idle.Value : bg_pressed.Value, g.IO.DeltaTime * 20.f );
+    st.background = ImLerp( st.background, ( pressed && !inactive ) ? bg_pressed.Value : bg_idle.Value, g.IO.DeltaTime * 20.f );
     st.border = ImLerp( st.border, st.focused ? colorPalette[ "ring" ].value : colorPalette[ "ring" ].modulate( 0 ).Value, g.IO.DeltaTime * 20.f );
     st.focus = ImLerp( st.focus, st.focused ? colorPalette[ "ring" ].modulate( 0.5f * style.Alpha ).Value : colorPalette[ "ring" ].modulate( 0 ).Value, g.IO.DeltaTime * 20.f );
 

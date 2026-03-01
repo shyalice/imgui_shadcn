@@ -37,7 +37,7 @@ namespace shadcn
         struct ButtonData
         {
             ImVec2 size = { 16, 16 };
-            std::string fontVariant = "geist_500_18";
+            std::string fontVariant = "geist_500_14";
             int rounding = 10;
             ButtonStyle style = ButtonStyle::Primary;
             std::function< void( ) > onClick = nullptr;

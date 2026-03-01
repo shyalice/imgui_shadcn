@@ -15,7 +15,9 @@ add_library(shadcn STATIC
         src/elem/text.cpp
         include/shadcn/elem/text.hpp
         src/elem/card.cpp
-        include/shadcn/elem/card.hpp)
+        include/shadcn/elem/card.hpp
+        include/shadcn/elem/toggle.hpp
+        src/elem/toggle.cpp)
 
 file(GLOB_RECURSE SHADCN_SOURCES CONFIGURE_DEPENDS
         "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp"

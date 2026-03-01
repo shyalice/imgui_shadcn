@@ -7,8 +7,10 @@
 #include "shadcn.hpp"
 #include "color/color.hpp"
 #include "elem/button.hpp"
+#include "elem/card.hpp"
 #include "elem/checkbox.hpp"
 #include "elem/input_text.hpp"
+#include "elem/toggle.hpp"
 #include "examples/login_screen.hpp"
 #include "fonts/fonts.hpp"
 #include "fonts/lucide/lucide_defines.hpp"
@@ -67,55 +69,67 @@ int main( )
         LoginScreen::render( );
 
         // ImGui::ShowDemoWindow( );
-        //
-        // ImGui::Begin( "Playground" );
-        // {
-        //     static bool check;
-        //     shadcn::Checkbox( "checkbox_test", &check, { .size = { 16, 16 }, .onClick = [] {
-        //                                                     std::cout << "Hello, World!" << std::endl;
-        //                                                 } } );
-        //
-        //     ImGui::SameLine( 0, 8 );
-        //
-        //     ImGui::Text( "%s", "Example check" );
-        //
-        //     shadcn::Button( "Cancel", { .size = { 80, 24 },
-        //                                 .style = shadcn::ButtonStyle::Destructive,
-        //                                 .onClick = [] {
-        //                                     std::cout << "Hello, World!" << std::endl;
-        //                                 } } );
-        //
-        //     ImGui::SameLine( 0, 8 );
-        //
-        //     shadcn::Button( "OK", { .size = { 80, 24 },
-        //                             .style = shadcn::ButtonStyle::Primary,
-        //                             .onClick = [] {
-        //                                 std::cout << "Hello, World!" << std::endl;
-        //                             } } );
-        //
-        //     ImGui::SameLine( 0, 8 );
-        //
-        //     shadcn::Button( "Alternative", { .size = { 80, 24 },
-        //                                      .style = shadcn::ButtonStyle::Secondary,
-        //                                      .onClick = [] {
-        //                                          std::cout << "Hello, World!" << std::endl;
-        //                                      } } );
-        //
-        //     static char buf[ 50 ] = { };
-        //     shadcn::InputText( "Input Field", "Enter something", buf, IM_ARRAYSIZE( buf ), { .size = { 100, 6 * 2 + 14 }, .pad = { 6, 6 }, .isDestructive = true } );
-        //
-        //     ImGui::SameLine( 0, 10 );
-        //
-        //     static char buf2[ 50 ] = { };
-        //     shadcn::InputText( "Input Field 2", "Enter something 2", buf2, IM_ARRAYSIZE( buf2 ), { .size = { 100, 6 * 2 + 14 }, .pad = { 6, 6 }, .isDestructive = false } );
-        //
-        //     ImGui::End( );
-        // }
-        //
+
+        ImGui::Begin( "Playground" );
+        {
+            shadcn::Card card( "Card", ImGui::GetContentRegionAvail( ) );
+            static bool check;
+            shadcn::Checkbox( "checkbox_test", &check, { .size = { 16, 16 }, .onClick = [] {
+                                                            std::cout << "Hello, World!" << std::endl;
+                                                        } } );
+
+            ImGui::SameLine( 0, 8 );
+
+            shadcn::Toggle( "toggle_test", &check, { .size = { 26, 16 }, .onClick = [] {
+                                                                    } } );
+
+            ImGui::SameLine( 0, 8 );
+
+            shadcn::Toggle( "toggle_test_d", &check, { .size = { 26, 16 }, .style = shadcn::ToggleStyle::Destructive, .onClick = [] {
+                                                                    } } );
+
+            shadcn::Button( "Cancel", { .size = { 80, 24 },
+                                        .fontVariant = "geist_500_14",
+                                        .style = shadcn::ButtonStyle::Destructive,
+                                        .onClick = [] {
+                                            std::cout << "Hello, World!" << std::endl;
+                                        } } );
+
+            ImGui::SameLine( 0, 8 );
+
+            shadcn::Button( "OK", { .size = { 80, 24 },
+                                    .fontVariant = "geist_500_14",
+                                    .style = shadcn::ButtonStyle::Primary,
+                                    .onClick = [] {
+                                        std::cout << "Hello, World!" << std::endl;
+                                    } } );
+
+            ImGui::SameLine( 0, 8 );
+
+            shadcn::Button( "Alternative", { .size = { 80, 24 },
+                                             .fontVariant = "geist_500_14",
+                                             .style = shadcn::ButtonStyle::Secondary,
+                                             .onClick = [] {
+                                                 std::cout << "Hello, World!" << std::endl;
+                                             } } );
+
+            static char buf[ 50 ] = { };
+            shadcn::InputText( "Input Field", "Enter something", buf, IM_ARRAYSIZE( buf ), { .size = { 100, 6 * 2 + 14 }, .pad = { 6, 6 }, .isDestructive = true } );
+
+            ImGui::SameLine( 0, 10 );
+
+            static char buf2[ 50 ] = { };
+            shadcn::InputText( "Input Field 2", "Enter something 2", buf2, IM_ARRAYSIZE( buf2 ), { .size = { 100, 6 * 2 + 14 }, .pad = { 6, 6 }, .isDestructive = false } );
+
+            card.end( );
+
+            ImGui::End( );
+        }
+
         // ImGui::Begin( "Lucide Icons" );
         // {
         //     static std::vector< int > const font_sizes = {
-        //         14, 18, 24 };
+        //         14, 16, 18, 20 };
         //
         //     for ( auto const size : font_sizes )
         //     {
