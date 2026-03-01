@@ -13,15 +13,21 @@
 
 namespace shadcn
 {
-    struct CardData
+    enum class CardBackgroundStyle
     {
-        ImVec2 padding = { 10, 10 };
-        int rounding = 10;
-        bool useBackground = true;
+        Muted,
+        Standard
     };
 
     struct Card
     {
+        struct CardData
+        {
+            std::optional< CardBackgroundStyle > backgroundStyle = std::nullopt;
+            ImVec2 padding = { 10, 10 };
+            int rounding = 10;
+        };
+
         Card( const std::string& name, const ImVec2& size, const std::optional< CardData >& data = std::nullopt );
         ~Card( );
 

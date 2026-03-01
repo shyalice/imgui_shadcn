@@ -33,8 +33,18 @@ Card::Card( const std::string& name, const ImVec2& size, const std::optional< Ca
 
     window->DrawList->AddRectFilled( window->Pos, window->Pos + window->Size, colorPalette[ "background" ].modulate( ), card_data.rounding );
 
-    if ( card_data.useBackground )
-        window->DrawList->AddRectFilled( window->Pos, window->Pos + window->Size, colorPalette[ "muted" ].modulate( 0.3f * style.Alpha ), card_data.rounding );
+    if ( card_data.backgroundStyle.has_value( ) )
+    {
+        switch ( card_data.backgroundStyle.value( ) )
+        {
+        case CardBackgroundStyle::Muted:
+            window->DrawList->AddRectFilled( window->Pos, window->Pos + window->Size, colorPalette[ "muted" ].modulate( 0.3f * style.Alpha ), card_data.rounding );
+        case CardBackgroundStyle::Standard:
+            window->DrawList->AddRectFilled( window->Pos, window->Pos + window->Size, colorPalette[ "card" ].modulate( ), card_data.rounding );
+        default:
+            break;
+        }
+    }
 
     window->DrawList->AddRect( window->Pos, window->Pos + window->Size, colorPalette[ "border" ].modulate( ), card_data.rounding );
 

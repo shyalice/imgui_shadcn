@@ -72,7 +72,7 @@ int main( )
 
         ImGui::Begin( "Playground" );
         {
-            shadcn::Card card( "Card", ImGui::GetContentRegionAvail( ) );
+            shadcn::Card card( "Card", ImGui::GetContentRegionAvail( ), shadcn::Card::CardData { .backgroundStyle = shadcn::CardBackgroundStyle::Standard } );
             static bool check;
             shadcn::Checkbox( "checkbox_test", &check, { .size = { 16, 16 }, .onClick = [] {
                                                             std::cout << "Hello, World!" << std::endl;
@@ -81,12 +81,12 @@ int main( )
             ImGui::SameLine( 0, 8 );
 
             shadcn::Toggle( "toggle_test", &check, { .size = { 26, 16 }, .onClick = [] {
-                                                                    } } );
+                                                    } } );
 
             ImGui::SameLine( 0, 8 );
 
             shadcn::Toggle( "toggle_test_d", &check, { .size = { 26, 16 }, .style = shadcn::ToggleStyle::Destructive, .onClick = [] {
-                                                                    } } );
+                                                      } } );
 
             shadcn::Button( "Cancel", { .size = { 80, 24 },
                                         .fontVariant = "geist_500_14",
