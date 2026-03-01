@@ -16,11 +16,18 @@ namespace shadcn
 
     extern std::unordered_map< std::string, Color > colorPalette;
 
+    struct GlobalStyleSettings
+    {
+        bool useAdvancedAnimations = true;
+    };
+
     class CStyles
     {
     public:
         ~CStyles( );
         CStyles( );
+
+        GlobalStyleSettings global;
 
         void setDarkNeutral( );
         // TODO / FIXME

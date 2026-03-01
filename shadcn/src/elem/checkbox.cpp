@@ -6,6 +6,7 @@
 
 #include "imgui.h"
 #include "imgui_internal.h"
+#include "shadcn.hpp"
 #include "color/color.hpp"
 #include "elem/elem.hpp"
 #include "styles/styles.hpp"
@@ -42,6 +43,7 @@ Checkbox::Checkbox( const std::string& id, bool* v, const CheckboxData& data )
     auto& st = state[ id ];
 
     elem::unfocusWhenInactive( g.IO.MousePos, total_bb, ( elem::DataSkeleton* ) &st );
+    // TODO: make ability to set focus through text elem e.g. SameLine, Text("checkbox") -> clicked -> set checkbox focused (and animating)
 
     if ( pressed )
     {
@@ -57,7 +59,7 @@ Checkbox::Checkbox( const std::string& id, bool* v, const CheckboxData& data )
 
     window->DrawList->PushClipRectFullScreen( );
 
-    st.heldOffset = ImLerp( st.heldOffset, held ? ImVec2( 2, 2 ) : ImVec2( 0, 0 ), g.IO.DeltaTime * 20.f );
+    st.heldOffset = shadcn::g->styles->global.useAdvancedAnimations ? ImLerp( st.heldOffset, held ? ImVec2( 2, 2 ) : ImVec2( 0, 0 ), g.IO.DeltaTime * 20.f ) : ImVec2( 0, 0 );
 
     st.background = ImLerp( st.background, !( *v ) ? colorPalette[ "background" ].value : colorPalette[ "primary" ].value, g.IO.DeltaTime * 20.f );
     st.border = ImLerp( st.border, !( *v ) ? ( st.focused ? colorPalette[ "ring" ].value : colorPalette[ "border" ].value ) : colorPalette[ "border" ].modulate( 0 ).Value, g.IO.DeltaTime * 20.f );

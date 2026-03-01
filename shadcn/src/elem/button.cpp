@@ -85,8 +85,8 @@ Button::Button( const std::string& name, const ButtonData& data )
         break;
     }
 
-    st.heldSizeMult = ImLerp( st.heldSizeMult, ( held && !elem::isInactive( ) ) ? 0.9f : 1.f, g.IO.DeltaTime * 20.f );
-    st.heldOffset = ImLerp( st.heldOffset, ( held && !elem::isInactive( ) ) ? ImVec2( 2, 2 ) : ImVec2( 0, 0 ), g.IO.DeltaTime * 20.f );
+    st.heldSizeMult = shadcn::g->styles->global.useAdvancedAnimations ? ImLerp( st.heldSizeMult, ( held && !elem::isInactive( ) ) ? 0.9f : 1.f, g.IO.DeltaTime * 20.f ) : 1.f;
+    st.heldOffset = shadcn::g->styles->global.useAdvancedAnimations ? ImLerp( st.heldOffset, ( held && !elem::isInactive( ) ) ? ImVec2( 2, 2 ) : ImVec2( 0, 0 ), g.IO.DeltaTime * 20.f ) : ImVec2( 0, 0 );
 
     st.background = ImLerp( st.background, !pressed ? bg_idle.Value : bg_pressed.Value, g.IO.DeltaTime * 20.f );
     st.border = ImLerp( st.border, st.focused ? colorPalette[ "ring" ].value : colorPalette[ "ring" ].modulate( 0 ).Value, g.IO.DeltaTime * 20.f );
