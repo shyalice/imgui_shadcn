@@ -18,9 +18,10 @@ Entry::Entry( )
     auto& style = ImGui::GetStyle( );
     style.CurveTessellationTol = 0.1f;
     style.ItemSpacing = { 10, 10 };
+    style.Scale = 1.f;
 
     auto& shadcn_style = g->styles->global;
-    shadcn_style.useAdvancedAnimations = false;
+    shadcn_style.useAdvancedAnimations = true;
 }
 
 Entry::~Entry( ) = default;

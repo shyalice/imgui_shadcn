@@ -9,7 +9,9 @@
 #include "elem/button.hpp"
 #include "elem/card.hpp"
 #include "elem/checkbox.hpp"
+#include "elem/elem.hpp"
 #include "elem/input_text.hpp"
+#include "elem/slider.hpp"
 #include "elem/toggle.hpp"
 #include "examples/login_screen.hpp"
 #include "fonts/fonts.hpp"
@@ -88,12 +90,26 @@ int main( )
             shadcn::Toggle( "toggle_test_d", &check, { .size = { 26, 16 }, .style = shadcn::ToggleStyle::Destructive, .onClick = [] {
                                                       } } );
 
-            shadcn::Button( "Cancel", { .size = { 80, 24 },
-                                        .fontVariant = "geist_500_14",
-                                        .style = shadcn::ButtonStyle::Destructive,
-                                        .onClick = [] {
-                                            std::cout << "Hello, World!" << std::endl;
-                                        } } );
+            ImGui::SameLine( 0, 8 );
+
+            static int slider = 0;
+            shadcn::Slider( "Slider", &slider, -5, 5, {
+                                                          .size = { 64, 16 },
+                                                      } );
+
+            ImGui::SameLine( 0, 8 );
+
+            shadcn::Slider( "Inactive slider", &slider, -5, 5, {
+                                                                   .style = shadcn::SliderStyle::Filled,
+                                                                   .size = { 64, 16 },
+                                                               } );
+
+            ImGui::SameLine( 0, 5 );
+            ImGui::Text( "%i", slider );
+
+            shadcn::Button( "Cancel", { .size = { 80, 24 }, .fontVariant = "geist_500_14", .style = shadcn::ButtonStyle::Destructive, .onClick = [] {
+                                           std::cout << "Hello, World!" << std::endl;
+                                       } } );
 
             ImGui::SameLine( 0, 8 );
 

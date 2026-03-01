@@ -102,8 +102,8 @@ Toggle::Toggle( const std::string& id, bool* v, const ToggleData& data )
 
     st.radius = ImLerp( st.radius, !(*v) ? 1.f : 0.f, g.IO.DeltaTime * 20.f );
 
-    auto const radius = total_bb.GetHeight( ) / 2 - 2 - st.radius;
-    auto const padding = 2 + radius + st.radius;
+    auto const radius = (total_bb.GetHeight( ) / 2 - 2 - st.radius) - st.heldOffset.y;
+    auto const padding = 2 + radius + st.radius + st.heldOffset.y;
 
     st.offset = ImLerp( st.offset, *v ? total_bb.GetWidth( ) - padding * 2 : 0, g.IO.DeltaTime * 20.f );
 
